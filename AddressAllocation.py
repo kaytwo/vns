@@ -40,7 +40,7 @@ def instantiate_template(owner, template, ip_block_from, src_filters, temporary,
     # build a depth-first "tree" of the topology from the port connected to the gateway
     root = template.get_root_port()
     if not root:
-        return ("template '%s' has no ports" % template.name,)
+        return ("template '%s' has no ports" % template.name,None,None,None)
     try:
         tree = root.get_tree(True)
         num_addrs = tree.compute_subnet_size()
@@ -56,7 +56,7 @@ def instantiate_template(owner, template, ip_block_from, src_filters, temporary,
         # allocate a subblock of IPs for the new topology
         allocs = allocate_ip_block(ip_block_from, 1, num_addrs, src_filters, use_first_available)
         if not allocs:
-            return ("insufficient free IP addresses",)
+            return ("insufficient free IP addresses",None,None,None)
         alloc = allocs[0]
 
     # create the topology and assign IP addresses
